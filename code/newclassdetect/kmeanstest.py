@@ -24,6 +24,17 @@ all_data_labels = all_data.iloc[:, -labels_num:]
 
 # para relative config
 random_labels_num = 5
-randomlist=random.sample(range(19),random_labels_num)
+randomlist = random.sample(range(19), random_labels_num)
+index_list = pd.indexes.range.RangeIndex(0)
+for id in randomlist:
+    index_list = index_list.union(
+        all_data[all_data.iloc[:, id - labels_num] == 1].index)
 
+index_cluster = all_data.index.difference(index_list)
+index_stream = index_list
 
+cluster_data = all_data.iloc[index_cluster]
+stream_data = all_data.iloc[index_stream]
+
+# cluster model
+num_cluster = 8
